@@ -148,6 +148,23 @@ function getNetID(){
     done
 }
 
+function getNetIDRange(){
+    local -a netIDEnd=() 
+    IFS='.' read -r -a decimalNetID <<< "$1"
+    local netInc=$2
+    IFS='.' read -r -a decimalMask <<< "$3"
+    for ((i=0; i<${#decimalNetID[@]}; i++)); do
+        if [ "${decimalMask[i]}" -eq 255 ]; then
+            netIDEnd+=("${decimalNetID[i]}")
+        elif [ "${decimalMask[i]}" -lt 255 ] && [ "${decimalMask[i]}" -gt 0 ]; then
+            netIDEnd+=("$(( (decimalNetID[i] | (255 - decimalMask[i])) + netInc - 1))")
+        else
+            netIDEnd+=("255")
+        fi
+    done
+    echo -e "${yellowColour}[+]${endColour}${grayColour} BroadCast IP: ${endColour}${blueColour}$(printf '%s.' "${netIDEnd[@]}" | sed 's/\.$//')${endColour}"
+}
+
 while getopts "i:n:h" arg; do
     case $arg in
         i) ipAddress=$OPTARG;;
