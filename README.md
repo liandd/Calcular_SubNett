@@ -22,15 +22,15 @@ El proyecto se centra en el desarrollo de un script en Bash para el cálculo de 
 ```bash
 ./subNet.sh -i 192.168.1.1 -n 255.255.255.0
 ```
-Este comando calculará la información de red para la dirección IP 192.168.1.1 y la máscara de red 255.255.255.0.
+Este comando calculará la información de red para la dirección IP **192.168.1.1** y la máscara de red **255.255.255.0**.
 Problemas Resueltos
 
-- Cálculo de Rango de ID de Red: Se corrigió la función getNetIDRange para proporcionar el rango correcto de ID de red.
+- **Cálculo de Rango de ID de Red**: Se corrigió la función `getNetIDRange` para proporcionar el rango correcto de ID de red.
 
-- Cálculo de Hosts por Subred: La función getHostsPerSubnet se ajustó para manejar correctamente valores grandes sin errores de desbordamiento.
+- **Cálculo de Hosts por Subred**: La función `getHostsPerSubnet` se ajustó para manejar correctamente valores grandes sin errores de *desbordamiento*.
 
 ## Conclusión
 
-El script de Bash ha sido mejorado y ajustado para proporcionar resultados más precisos y evitar posibles errores. Se recomienda su uso para cálculos de red en entornos de línea de comandos.
+El script de Bash ha sido mejorado y ajustado para proporcionar resultados más precisos y evitar posibles errores. Se recomienda su uso para cálculos de red a traves de comandos en una terminal bash.
 
 ![image](https://github.com/liandd/Calcular_SubNett/assets/114973749/1c3798de-0d83-4995-bb86-d0e0a32f527d)
