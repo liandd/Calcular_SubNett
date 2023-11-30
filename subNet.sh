@@ -97,6 +97,48 @@ function getOctetosDeIP(){
     fi
 }
 
+function calcularClase(){
+    local octetosIP=("${!1}")
+    counter=0 
+    if [ "${octetosIP[0]}" == 10 ]; then
+        counter=1  # Class A Private address blocks
+    elif [ "${octetosIP[0]}" == 172 ] && [ "${octetosIP[1]}" -ge 16 ] && [ "${octetosIP[1]}" -le 31 ]; then
+        counter=2  # Class B Private address blocks
+    elif [ "${octetosIP[0]}" == 192 ] && [ "${octetosIP[1]}" == 168 ]; then
+        counter=3  # Class C Private address blocks
+    elif [ "${octetosIP[0]}" == 127 ]; then
+        counter=4  # Loopback Address Reserved address blocks
+    elif [ "${octetosIP[0]}" -ge 0 ] && [ "${octetosIP[0]}" -lt 127 ]; then
+        counter=5
+    elif [ "${octetosIP[0]}" -gt 127 ] && [ "${octetosIP[0]}" -lt 192 ]; then
+        counter=6
+    elif [ "${octetosIP[0]}" -gt 191 ] && [ "${octetosIP[0]}" -lt 224 ]; then
+        counter=7
+    elif [ "${octetosIP[0]}" -gt 223 ] && [ "${octetosIP[0]}" -lt 240 ]; then
+        counter=8
+    elif [ "${octetosIP[0]}" -gt 239 ] && [ "${octetosIP[0]}" -le 255 ]; then
+        counter=9
+    else
+        counter=0  # Out of Range
+    fi
+    case $counter in
+        1) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${purpleColour} Private block${endColour},${greenColour} Class 'A'${endColour}" ;;
+        2) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${purpleColour} Private block${endColour},${greenColour} Class 'B'${endColour}" ;;
+        3) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${purpleColour} Private block${endColour},${greenColour} Class 'C'${endColour}" ;;
+        4) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${redColour} Reserved block, System Loopback Address${endColour}" ;;
+        5) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${greenColour} A${endColour}" ;;
+        6) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${greenColour} B${endColour}" ;;
+        7) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${greenColour} C${endColour}" ;;
+        8) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${greenColour} D${endColour}"
+            echo -e "\n${redColour}[!]${endColour}${grayColour} Esta es una ${endColour}${greenColour}Clase D${endColour}${redColour} Reservada${endColour}${turquoiseColour} 'Multicast IP Address Block'${endColour}" ;;
+        9) echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Class:${endColour}${greenColour} E${endColour}"
+            echo -e "\n${redColour}[!]${endColour}${grayColour} Esta es una ${endColour}${greenColour}Clase E${endColour}${redColour} Reservada${endColour}${turquoiseColour} 'Multicast IP Address Block'${endColour}" ;;
+        *) echo -e "\n${redColour}[!]${endColour}${grayColour} No esta en rango${endColour}" ;;
+    esac
+}
+
+
+
 while getopts "i:n:h" arg; do
     case $arg in
         i) ipAddress=$OPTARG;;
