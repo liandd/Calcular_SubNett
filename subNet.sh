@@ -25,6 +25,30 @@ function helpPanel(){
     echo -e "\t${purpleColour}h)${endColour}${grayColour} Panel de ayuda${endColour}"
 }
 
+function binaryRepresentation(){
+    IFS='.' read -r -a ipOctet <<< "$1"
+    IFS='.' read -r -a netOctet <<< "$2"
+    local ipBinary=""
+    local netBinary=""
+    for octet in "${ipOctet[@]}"; do
+        binaryOctet=$(echo "obase=2; $octet" | bc)
+        binaryOctet=$(printf "%08d" "$binaryOctet")
+        ipBinary+="$binaryOctet."
+    done 
+    ipBinary=${ipBinary%?}
+    for octet in "${netOctet[@]}"; do
+        binaryOctet=$(echo "obase=2; $octet" | bc)
+        binaryOctet=$(printf "%08d" "$binaryOctet")
+        netBinary+="$binaryOctet."
+    done
+    netBinary=${netBinary%?}
+    ipBIN=$ipBinary
+    netBIN=$netBinary
+    echo -e "\n${greenColour}[!]${endColour}${grayColour} Representacion Binaria:${endColour}"
+    echo -e "\n${yellowColour}[+]${endColour}${greenColour} IP Address dada: ${endColour}${purpleColour}$(printf '%s.' "${ipBIN}" | sed "s/\.$//")${endColour} "
+    echo -e "${yellowColour}[+]${endColour}${turquoiseColour} Mascara de Red: ${endColour}${purpleColour}$(printf '%s.' "${netBIN}" | sed "s/\.$//")${endColour} "
+}
+
 while getopts "i:n:h" arg; do
     case $arg in
         i) ipAddress=$OPTARG;;
