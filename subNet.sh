@@ -165,6 +165,46 @@ function getNetIDRange(){
     echo -e "${yellowColour}[+]${endColour}${grayColour} BroadCast IP: ${endColour}${blueColour}$(printf '%s.' "${netIDEnd[@]}" | sed 's/\.$//')${endColour}"
 }
 
+function getHostsPerSubnet(){
+    IFS='.' read -r -a decimalMask <<< "$1"
+    hostBits=0
+    for ((i=0; i<${#decimalMask[@]}; i++)); do
+        if [ "${decimalMask[i]}" -eq 255 ]; then
+            hostBits=$((hostBits + 0))
+            continue
+        elif [ "${decimalMask[i]}" -eq 254 ]; then
+            hostBits=$((hostBits + 1))
+            continue
+        elif [ "${decimalMask[i]}" -eq 252 ]; then
+            hostBits=$((hostBits + 2))
+            continue
+        elif [ "${decimalMask[i]}" -eq 248 ]; then
+            hostBits=$((hostBits + 3))
+            continue
+        elif [ "${decimalMask[i]}" -eq 240 ]; then
+            hostBits=$((hostBits + 4))
+            continue
+        elif [ "${decimalMask[i]}" -eq 224 ]; then
+            hostBits=$((hostBits + 5))
+            continue
+        elif [ "${decimalMask[i]}" -eq 192 ]; then
+            hostBits=$((hostBits + 6))
+            continue
+        elif [ "${decimalMask[i]}" -eq 128 ]; then
+            hostBits=$((hostBits + 7))
+            continue
+        elif [ "${decimalMask[i]}" -eq 0 ]; then
+            hostBits=$((hostBits + 8))
+            continue
+        else
+            hostBits=0
+            break
+        fi
+    done
+    local hostsPerSubnet=$(awk -v bits="$hostBits" 'BEGIN { printf "%.0f", 2 ** bits - 2 }')
+    echo -e "${yellowColour}[+]${endColour}${grayColour} Total Hosts:${endColour} ${purpleColour}${hostsPerSubnet}${endColour}"
+}
+
 while getopts "i:n:h" arg; do
     case $arg in
         i) ipAddress=$OPTARG;;
