@@ -18,6 +18,12 @@ function ctrl_c(){
     tput cnorm && exit 1
 }
 
+function helpPanel(){
+    echo -e "\n${yellowColour}[!]${endColour}${grayColour} Uso: ${endColour}${greenColour}$0${endColour} ${purpleColour}-i${endColour}${blueColour} <ipAddress>${endColour} ${purpleColour}-n${endColour} ${blueColour}<netMask>${endColour}\n"
+    echo -e "\t${purpleColour}i)${endColour}${grayColour} Direccion${endColour}${blueColour} IPv4${endColour}${grayColour} para subnet${endColour}"
+    echo -e "\t${purpleColour}n)${endColour}${grayColour} Mascara de red${endColour}"
+    echo -e "\t${purpleColour}h)${endColour}${grayColour} Panel de ayuda${endColour}"
+}
 
 while getopts "i:n:h" arg; do
     case $arg in
