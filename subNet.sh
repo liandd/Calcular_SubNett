@@ -137,7 +137,16 @@ function calcularClase(){
     esac
 }
 
-
+function getNetID(){
+    local octetosIP=("${!1}")
+    local octetosMask=("${!2}")
+    for ((j = 0; j < ${#octetosIP[@]}; j++)); do
+        if [ $j -gt 0 ]; then
+            printf ""
+        fi
+        netID+=("$((octetosIP[j] & octetosMask[j]))")
+    done
+}
 
 while getopts "i:n:h" arg; do
     case $arg in
