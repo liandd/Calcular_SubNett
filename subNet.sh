@@ -73,6 +73,30 @@ function getOctetosMask(){
         fi
 }
 
+function getOctetosDeIP(){
+    ip="$1"
+    IFS='.' read -r -a octetosIP <<< "$ip"
+    ipEnRango=()
+    if [ "${#octetosIP[@]}" -eq 4 ]; then
+        for octeto in "${octetosIP[@]}"; do
+            if [ "$octeto" -ge 0 ] && [ "$octeto" -le 255 ]; then
+                ipEnRango+=("true")
+            else
+                ipEnRango+=("false")
+            fi
+        done
+        if [ "${ipEnRango[0]}" == "true" ] && [ "${ipEnRango[1]}" == "true" ] && [ "${ipEnRango[2]}" == "true" ] && [ "${ipEnRango[3]}" == "true" ]; then
+            return 0
+        else
+            echo -e "\n${redColour}[!] Solo hay${endColour}${greenColour} 255 bits${endColour}${blueColour} por octeto${endColour}${grayColour}.${endColour}${redColour} Ingresa nuevamente la IP.${endColour}\n\n"
+            exit 1
+        fi
+    else
+        echo -e "\n${redColour}[!] Ingresar los cuatro octetos para la IP usando puntos${endColour}\n\n"
+        exit 1
+    fi
+}
+
 while getopts "i:n:h" arg; do
     case $arg in
         i) ipAddress=$OPTARG;;
