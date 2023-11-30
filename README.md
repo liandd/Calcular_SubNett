@@ -1,10 +1,10 @@
 ## Informe del Proyecto
-Descripción
+**Descripción**
 
 El proyecto se centra en el desarrollo de un script en Bash para el cálculo de parámetros de red, incluyendo la identificación de la clase de red, el cálculo del ID de red y del rango de hosts. Además, se implementa una función para obtener la representación binaria de una dirección IP y una máscara de red.
 
 ### Estructura del Proyecto
-
+#
 > El script de Bash consta de varias funciones clave
 
   **`1.`** **helpPanel**: Muestra un panel de ayuda con la descripción de los parámetros esperados.
