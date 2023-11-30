@@ -65,3 +65,7 @@ Problemas Resueltos
 El script de Bash ha sido mejorado y ajustado para proporcionar resultados más precisos y evitar posibles errores. Se recomienda su uso para cálculos de red a traves de comandos en una terminal bash.
 
 ![image](https://github.com/liandd/Calcular_SubNett/assets/114973749/1c3798de-0d83-4995-bb86-d0e0a32f527d)
+
+## Version en c++
+![image](https://github.com/liandd/Calcular_SubNett/assets/114973749/16e457f8-64af-4336-9925-3ffb98512501)
+
