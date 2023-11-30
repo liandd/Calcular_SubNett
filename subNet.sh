@@ -205,6 +205,25 @@ function getHostsPerSubnet(){
     echo -e "${yellowColour}[+]${endColour}${grayColour} Total Hosts:${endColour} ${purpleColour}${hostsPerSubnet}${endColour}"
 }
 
+function calculoSubnet(){
+    ip=$1
+    netMask=$2
+    octetosIP=()
+    octetosMask=()
+    netID=()
+    netInc=1
+    getOctetosDeIP $ip getOctetosMask $netMask
+    echo -e "\n${yellowColour}[+]${endColour}${grayColour} Calculo de ${endColour}${turquoiseColour}SubNetting${endColour}${greenColour} Juan Garcia${endColour} ${grayColour}(${endColour}${yellowColour}aka${endColour}${redColour} liandd${endColour}${grayColour})${endColour}"
+    echo -e "\n${yellowColour}[+]${endColour}${grayColour} IP Address:${endColour}${blueColour} ${ip}${endColour}"
+    echo -e "${yellowColour}[+]${endColour}${grayColour} Mascara de Red:${endColour}${blueColour} ${netMask}${endColour}"
+    binaryRepresentation $ip $netMask
+    echo -e "\n${greenColour}[!]${endColour}${grayColour} Informacion de Clase de red Respecto al ${endColour}${turquoiseColour}CIDR${endColour}"
+    calcularClase octetosIP[@] getNetID octetosIP[@] octetosMask[@]
+    echo -e "${yellowColour}[+]${endColour}${grayColour} Network ID: ${endColour}${blueColour}$(printf '%s.' "${netID[@]}" | sed 's/\.$//')${endColour}"
+    getNetIDRange $ip $netInc $netMask
+    getHostsPerSubnet $netMask
+}
+
 while getopts "i:n:h" arg; do
     case $arg in
         i) ipAddress=$OPTARG;;
