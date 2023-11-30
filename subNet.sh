@@ -49,6 +49,30 @@ function binaryRepresentation(){
     echo -e "${yellowColour}[+]${endColour}${turquoiseColour} Mascara de Red: ${endColour}${purpleColour}$(printf '%s.' "${netBIN}" | sed "s/\.$//")${endColour} "
 }
 
+function getOctetosMask(){
+    mask="$1"
+    IFS='.' read -r -a octetosMask <<< "$mask"
+    maskEnRango=()
+    if [ "${#octetosMask[@]}" -eq 4 ]; then
+        for octeto in "${octetosMask[@]}"; do
+            if [ "$octeto" == 0 ] || [ "$octeto" == 128 ] || [ "$octeto" == 192 ] || [ "$octeto" == 224 ] || [ "$octeto" == 240 ] || [ "$octeto" == 248 ] || [ "$octeto" == 252 ] || [ "$octeto" == 254 ] || [ "$octeto" == 255 ]; then
+                maskEnRango+=("true")
+            else
+                maskEnRango+=("false")
+            fi
+        done
+        if [ "${maskEnRango[0]}" == "true" ] && [ "${maskEnRango[1]}" == "true" ] && [ "${maskEnRango[2]}" == "true" ] && [ "${maskEnRango[3]}" == "true" ]; then
+            return 0
+        else
+            echo -e "\n${redColour}[!] Mascaras de subnet solo usan${endColour}${greenColour} 2^${endColour}${yellowColour}[${endColour}${turquoiseColour}0${endColour}${grayColour}-${endColour}${turquoiseColour}7${endColour}${yellowColour}]${endColour}${grayColour}.${endColour}${redColour} Ingresa nuevamente la mascara.${endColour}\n\n"
+            exit 1
+        fi
+        else
+            echo -e "\n${redColour}[!] Ingresar los cuatro octetos para la mascara de red usando puntos${endColour}\n"
+            exit 1
+        fi
+}
+
 while getopts "i:n:h" arg; do
     case $arg in
         i) ipAddress=$OPTARG;;
